@@ -3,7 +3,7 @@
  * Plugin Name:       devNahid Plugin
  * Plugin URI:        https://example.com/plugins/the-basics/
  * Description:       Handle the basics with this plugin.
- * Version:           1.0.0
+ * Version:           1.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Nahid Hasan
@@ -15,32 +15,27 @@
  * Domain Path:       /languages
  */
 
-
+// Exit if accessed directly.
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-/**
- * Use php composer for namespace. 
- */
-// require_once __DIR__ . '/vendor/autoload.php';
-
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * Plugin main class -- Final class, so can't access other people
+ * Plugin main class and it's a final class. 
  */
+
 final class DevNahid_Plugin {
-  
     /**
      * Define plugin version
      */
-    const version = '1.0.0';
-
-
+    const version = '1.0';
     /**
      * Class constructors
      */
+
     private function __construct() {
         $this->define_constants();
         register_activation_hook( __FILE__, [ $this, 'activate' ] );
@@ -52,6 +47,7 @@ final class DevNahid_Plugin {
      * 
      * @return \DevNahid_Plugin 
      */
+
      public static function init() {
 
         static $instance = false;
@@ -63,31 +59,34 @@ final class DevNahid_Plugin {
         return $instance;
      }
 
-
      /**
       * Define required plugin constants
       *
       *@return void
       */
+
       public function define_constants() {
         define( 'DEVNAHID_VERSION', self::version );
         define( 'DEVNAHID_FILE', __FILE__ );
         define( 'DEVNAHID_PATH', __DIR__ );
-        define( 'DEVNAHID_URL', plugins_url( '', DEVNAHID_FILE ) );
+        define( 'DEVNAHID_URL', plugins_url( '$path:string', DEVNAHID_FILE ) );
         define( 'DEVNAHID_ASSETS', DEVNAHID_URL . '/assets' );
       }
-
 
       /**
        * Initialize after plugin file loaded
        */
+      
       public function init_plugin() {
-
+        
         if ( is_admin() ) {
-          //new DevNahid\Plugin\Admin();
+
+          new DevNahid\Plugin\Admin();
+
         }else {
-         // new DevNahid\Plugin\Frontend();
+          new DevNahid\Plugin\Frontend();
         }
+        
       }
 
       /**
@@ -95,11 +94,13 @@ final class DevNahid_Plugin {
        * 
        * @return void
        */
+
       public function activate() {
 
         /**
          * Initialize the plugin activation time blow this hook. So we can able to check the time of this plugin installed
          */
+
         $installed = get_option( 'devnahid_installed' );
 
         if ( ! $installed ) {
@@ -128,5 +129,5 @@ function devnahid_plugin() {
     return DevNahid_Plugin::init();
 }
 
-// Finally run the plugin!
-// devnahid_plugin();
+// Run the plugin
+devnahid_plugin();

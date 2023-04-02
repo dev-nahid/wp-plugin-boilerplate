@@ -1,0 +1,14 @@
+{
+    "name": "devnahid/plugin-boilerplate",
+    "description": "wordpress plugin boilerplate with OOP",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DevNahid\\Plugin\\": "includes"
+        },
+        "files": []
+    }
+}
